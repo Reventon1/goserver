@@ -57,6 +57,7 @@ func InsertNote(note Note) Note {
 
 func UpdateNote(note Note) Note {
 	db := service.PgDataBase()
+
 	_, err := db.Model(&note).Where("id = ?", note.Id).Update()
 	if err != nil {
 		panic(err)

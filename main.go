@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+
 	"notice/controllers"
 	"notice/services"
 
@@ -21,9 +22,7 @@ func main() {
 	r.Static("/public", "./ui/build")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title":"App",
-		})
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
 	r.Use(service.CORS())
