@@ -2,6 +2,23 @@
   text-align: center;
 }
 
+.card {
+  display: flex;
+  margin: 15px;
+  width: 100%;
+}
+
+.card_id {
+  background-color: rgb(166, 228, 235);
+  padding: 50px;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.card_text {
+  background-color: rgb(213, 251, 255);
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -36,12 +36,9 @@ function App() {
       });
   }
 
-  const delNote = (inputId) => {
+  const delNote = () => {
     axios.delete(
-      'http://localhost:9090/api/note/'+ inputId, 
-      {
-        id: inputId.current.value
-      },  
+      'http://localhost:9090/api/note/'+ inputId.current.value, 
       ).then(() => {
         setIsUpdate(!isUpdate);
       });
@@ -65,7 +62,15 @@ function App() {
           Удалить
       </button>
       {!!notes && notes.map((note, index) => (
-        <div key={index}>{note.title}</div>
+        <div className="card">
+          <div className="card_id">
+            <div key={index}>{note.id}</div>
+          </div>
+          <div className="card_text">
+            <div key={index}>{note.title}</div>
+            <div key={index}>{note.info}</div>
+          </div>
+        </div>
       ))}
     </div>
   );
