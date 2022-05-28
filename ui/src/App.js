@@ -9,6 +9,8 @@ function App() {
   const inputInfo = useRef(null);
   const inputTitle = useRef(null);
   const inputId = useRef(null);
+  const inputEditTitle = useRef(null);
+  const inputEditInfo = useRef(null);
   
   useEffect(() => {
     axios.get(
@@ -36,12 +38,27 @@ function App() {
       });
   }
 
-  const delNote = () => {
+  const delNote = (id) => {
     axios.delete(
-      'http://localhost:9090/api/note/'+ inputId.current.value, 
+      'http://localhost:9090/api/note/'+ id, 
       ).then(() => {
         setIsUpdate(!isUpdate);
       });
+  }
+
+  const editNote = () => {
+    axios.put(
+      'http://localhost:9090/api/note/edit',
+      {
+        title: inputEditTitle.current.value,
+        info: inputEditInfo.current.value,
+      },
+      {
+        withCredentials: false
+      }
+    ).then(() => {
+      setIsUpdate(!isUpdate)
+    })
   }
 
   return (
@@ -57,18 +74,31 @@ function App() {
       </button>
       <label>Ввести ид</label>
       <input ref={inputId} type="text"/>
-      <button 
-        onClick={() => delNote()}>
-          Удалить
-      </button>
+      
       {!!notes && notes.map((note, index) => (
         <div className="card">
           <div className="card_id">
             <div key={index}>{note.id}</div>
+            <div>
+              <button 
+                onClick={() => delNote(note.id)}>
+                  Удалить
+              </button>
+            </div>
           </div>
           <div className="card_text">
-            <div key={index}>{note.title}</div>
-            <div key={index}>{note.info}</div>
+            <div className="title" key={index}>{note.title}</div>
+            <div className="info" key={index}>{note.info}</div>
+          </div>
+          <div className="card_edit">
+            <label>Новый заголовок</label>
+            <input ref={inputEditTitle} type="text"/>
+            <label>Новое описание</label>
+            <input ref={inputEditInfo} type="text"/>
+            <button 
+              onClick={() => editNote(note.id)}>
+                Обновить
+            </button>
           </div>
         </div>
       ))}

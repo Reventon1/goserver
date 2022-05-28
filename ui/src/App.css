@@ -8,6 +8,16 @@
   width: 100%;
 }
 
+.title {
+  margin: 2px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.info {
+  margin: 2px;
+}
+
 .card_id {
   background-color: rgb(166, 228, 235);
   padding: 50px;
@@ -16,6 +26,10 @@
 }
 
 .card_text {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   background-color: rgb(213, 251, 255);
 }
 
