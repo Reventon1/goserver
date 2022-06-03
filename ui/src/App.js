@@ -2,13 +2,25 @@ import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import './App.css';
 
+// document.addEventListener("DOMContentLoaded", function(){
+//   var scrollbar = document.body.clientWidth - window.innerWidth + 'px';
+//   console.log(scrollbar);
+//   document.querySelector('[href="#openModal"]').addEventListener('click',function(){
+//     document.body.style.overflow = 'hidden';
+//     document.querySelector('#openModal').style.marginLeft = scrollbar;
+//   });
+//   document.querySelector('[href="#close"]').addEventListener('click',function(){
+//     document.body.style.overflow = 'visible';
+//     document.querySelector('#openModal').style.marginLeft = '0px';
+//   });
+// });
+
 function App() {
   const [notes, setNotes] = useState(null);
   const [isUpdate, setIsUpdate] = useState(false);
 
   const inputInfo = useRef(null);
   const inputTitle = useRef(null);
-  const inputId = useRef(null);
   const inputEditTitle = useRef(null);
   const inputEditInfo = useRef(null);
   
@@ -48,10 +60,10 @@ function App() {
 
   const editNote = () => {
     axios.put(
-      'http://localhost:9090/api/note/edit',
+      'http://localhost:9090/api/note/edit/',
       {
-        title: inputEditTitle.current.value,
-        info: inputEditInfo.current.value,
+        title: inputEditTitle.value,
+        info: inputEditInfo.value,
       },
       {
         withCredentials: false
@@ -63,26 +75,40 @@ function App() {
 
   return (
     <div className="App">
+      <div id="openModal" className="modal">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3 className="modal-title">Создание заметки</h3>
+              <a href="#close" title="Close" className="close">×</a>
+            </div>
+              <div className="modal-body">    
+              <label>Заголовок</label>
+              <input ref={inputTitle} type="text"/>
+              <label>Описание</label>
+              <input ref={inputInfo} type="text"/>
+              <br></br>
+              <button 
+                onClick={() => addNote()}>
+                  Добавить
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <label>Заголовок</label>
-      <input ref={inputTitle} type="text"/>
-      <label>Описание</label>
-      <input ref={inputInfo} type="text"/>
-      <button 
-        onClick={() => addNote()}>
-          Добавить
-      </button>
-      <label>Ввести ид</label>
-      <input ref={inputId} type="text"/>
+      <a href="#openModal"><div className="openButton">Создать заметку</div></a>
+      
+
       
       {!!notes && notes.map((note, index) => (
         <div className="card">
           <div className="card_id">
             <div key={index}>{note.id}</div>
-            <div>
+            <div className="delButton">
               <button 
                 onClick={() => delNote(note.id)}>
-                  Удалить
+                  ×
               </button>
             </div>
           </div>
@@ -90,7 +116,7 @@ function App() {
             <div className="title" key={index}>{note.title}</div>
             <div className="info" key={index}>{note.info}</div>
           </div>
-          <div className="card_edit">
+          {/* <div className="card_edit">
             <label>Новый заголовок</label>
             <input ref={inputEditTitle} type="text"/>
             <label>Новое описание</label>
@@ -99,7 +125,7 @@ function App() {
               onClick={() => editNote(note.id)}>
                 Обновить
             </button>
-          </div>
+          </div> */}
         </div>
       ))}
     </div>
